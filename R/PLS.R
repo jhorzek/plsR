@@ -482,6 +482,9 @@ confidence_intervals <- function(PLS_result,
     # a single vector.
     return_vector <- c()
     for(p_type in c("effects", "weights", "loadings", "total_effects", "indirect_effects")){
+      # Some models don't have indirect effects. In this case, we have to skip
+      if(length(fit_results[[p_type]]) == 0)
+        next
       add_to_return <- flatten_effects(fit_results[[p_type]],
                                        separator = ifelse(p_type == "loadings", "->", "<-"))
       names(add_to_return) <- paste0(p_type, ":", names(add_to_return))
